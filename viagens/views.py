@@ -9,9 +9,13 @@ def index(request):
 def revConsulta (request):
     if request.method == 'POST':
         form = ViagemForms (request.POST)
-        contexto = { 'form': form}
-        return render (request, 'consulta.html', contexto)
+        if form.is_valid():
+            contexto = { 'form': form}
+            return render (request, 'consulta.html', contexto)
+        else:
+            print('form inválido')
+            contexto = {'form': form}
+            return render(request, 'index.html', contexto)
 
 
 
-# Create your views here.

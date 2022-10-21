@@ -1,13 +1,31 @@
 {% extends "base.html" %}
 {% block content %}
+{% load widget_tweaks %}
 
-    <section class="col-6">
-       
-        <form action="{% url 'consulta' %}", method="post">
+<section class="container col-6">
+    
+    <form action="{% url 'consulta' %}", method="post">
           {% csrf_token %}
-          {{ form }}
-          <input type="Submit" value="Enviar" class="btn btn-sucess">
-        </form>
-    </section>
+          {% for field in form.visible_fields %}
 
-{% endblock %}
+          <div class="form-group">
+              <label for="{{field.id_for_label}}"> {{field.label}}</label>
+              {{ field|add_class:'form-control' }}
+          </div>
+
+          {% for error in field.errors %}
+          <section class="alert alert-danger" role="alert">
+            {{ field.errors }}
+        
+          </section>
+          {% endfor %}
+          {% endfor %}
+
+
+    <input type="Submit" value="Enviar" class="btn btn-sucess">
+    </form>
+</section>
+
+
+
+{% endblock %} 
